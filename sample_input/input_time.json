@@ -1,0 +1,6 @@
+{
+    "batchType": "GetTime",
+    "batchInput": {
+        "Timezone": "Asia/Tokyo"
+    }
+}

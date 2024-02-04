@@ -1,0 +1,8 @@
+{
+    "batchType": "GetEnvVars",
+    "batchInput": {
+        "Foo": "foo",
+        "Bar": "bar",
+        "Baz": "baz"
+    }
+}

@@ -1,0 +1,30 @@
+[
+    {
+        "name": "sample-batch",
+        "image": "${ECR_REPOSITORY_IMAGE_URI}",
+        "cpu": 256,
+        "memory": 512,
+        "essential": true,
+        "environment": [
+            {
+                "name": "hoge",
+                "value": "foo"
+            },
+            {
+                "name": "fuga",
+                "value": "bar"
+            }
+        ],
+        "command": [
+            "/app/bootstrap"
+        ],
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "${CLOUDWATCH_LOGS_GROUP_NAME}",
+                "awslogs-region": "${CLOUDWATCH_LOGS_REGION}",
+                "awslogs-stream-prefix": "batch-log"
+            }
+        }
+    }
+]

@@ -1,0 +1,50 @@
+{
+    "Comment": "Launch ECS Task with parameters",
+    "StartAt": "Wait",
+    "States": {
+        "Wait": {
+            "Type": "Wait",
+            "Seconds": 5,
+            "Next": "ECS RunTask"
+        },
+        "ECS RunTask": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::ecs:runTask",
+            "Parameters": {
+                "LaunchType": "FARGATE",
+                "Cluster": "${ECS_CLUSTER_ARN}",
+                "TaskDefinition": "${ECS_TASK_DEFINITION_ARN}",
+                "NetworkConfiguration": {
+                    "AwsvpcConfiguration": {
+                        "Subnets": [
+                            "${SUBNET_A_ID}",
+                            "${SUBNET_C_ID}"
+                        ],
+                        "SecurityGroups": [
+                            "${SECURITY_GROUP_ID}"
+                        ],
+                        "AssignPublicIp": "ENABLED"
+                    }
+                },
+                "Overrides": {
+                    "ContainerOverrides": [
+                        {
+                            "Name": "${ECS_CONTAINER_NAME}",
+                            "Environment": [
+                                {
+                                    "Name": "BATCH_TYPE",
+                                    "Value.$": "$.batchType"
+                                },
+                                {
+                                    "Name": "BATCH_INPUT",
+                                    "Value.$": "States.JsonToString($.batchInput)"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "End": true
+        }
+    }
+}
